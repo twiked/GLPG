@@ -68,7 +68,7 @@ GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 { 1.0, 0.0, 0.0, 0.0,
   0.0, 1.0, 0.0, 0.0,
   0.0, 0.0, 1.0, 0.0,
-  Tx,  Ty,  Tz, 1.0};
+  Tx,  Ty,  Tz,  1.0};
 	return M;
 }
 
