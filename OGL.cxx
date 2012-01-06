@@ -1,6 +1,5 @@
 #include <GL/glut.h>
 #include <math.h>
-
 void affichage ()
 {
 	GLbitfield masque = GL_COLOR_BUFFER_BIT;
@@ -41,17 +40,17 @@ GLfloat* CreateMatRotx (GLfloat angle)
 	return M;
 };
 
-GLfloat* CreateMatRoty (GLfloat angle)
+GLfloat* CreateMatRotz (GLfloat angle)
 {
 	GLfloat M[] =
-{ 1.0,  0.0,         0.0,          0.0,
-  0.0,  cosf(angle), -sinf(angle), 0.0,
-  0.0,  sinf(angle), cosf(angle),  0.0,
-  0.0,  0.0,         0.0,          1.0};
+{ cosf(angle),  -sinf(angle), 0.0, 0.0,
+  sinf(angle),  cosf(angle),  0.0, 0.0,
+  0.0,          0.0,          1.0, 0.0,
+  0.0,          0.0,          0.0, 1.0};
 	return M;
 };
 
-GLfloat* CreateMatRotz (GLfloat angle)
+GLfloat* CreateMatRoty (GLfloat angle)
 {
 	GLfloat M[] =
 { cosf(angle),  0.0,         sinf(angle),          0.0,
@@ -63,16 +62,15 @@ GLfloat* CreateMatRotz (GLfloat angle)
 
 void idle ()
 {
+	static float i;
 	glLoadIdentity();
-
-	glLoadMatrixf(CreateMatEch(1.0, 1.0, 1));
+	glLoadMatrixf(CreateMatRotz(i += 10));
 	//glMultMatrixf();
 	glutPostRedisplay();
 }
 
 int main (int argc, char * argv[])
 {
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB);
 	glutInitWindowPosition(200,200);
