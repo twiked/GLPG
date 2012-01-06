@@ -65,10 +65,10 @@ GLfloat* CreateMatRoty (GLfloat angle)
 GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 {
 	GLfloat M[] =
-{ 1.0, 0.0, 0.0, 0,
-  0.0, 1.0, 0.0, 0,
-  0.0, 0.0, 1.0, 0,
-  Tx, Ty, Tz, 1.0};
+{ 1.0, 0.0, 0.0, 0.0,
+  0.0, 1.0, 0.0, 0.0,
+  0.0, 0.0, 1.0, 0.0,
+  Tx,  Ty,  Tz,  1.0};
 	return M;
 }
 
@@ -83,7 +83,7 @@ GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 
 void idle ()
 {
-	static float i;
+	static float i = 0;
 	glLoadIdentity();
 
 	glMultMatrixf(CreateMatEch(0.4,0.4,0));
