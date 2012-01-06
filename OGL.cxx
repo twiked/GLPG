@@ -34,8 +34,8 @@ GLfloat* CreateMatRotx (GLfloat angle)
 {
 	GLfloat M[] =
 { 1.0,  0.0,         0.0,          0.0,
-  0.0,  cosf(angle), -sinf(angle), 0.0,
-  0.0,  sinf(angle), cosf(angle),  0.0,
+  0.0,  cosf(angle), sinf(angle),  0.0,
+  0.0,  -sinf(angle),cosf(angle),  0.0,
   0.0,  0.0,         0.0,          1.0};
 	return M;
 };
@@ -43,8 +43,8 @@ GLfloat* CreateMatRotx (GLfloat angle)
 GLfloat* CreateMatRotz (GLfloat angle)
 {
 	GLfloat M[] =
-{ cosf(angle),  -sinf(angle), 0.0, 0.0,
-  sinf(angle),  cosf(angle),  0.0, 0.0,
+{ cosf(angle),  sinf(angle),  0.0, 0.0,
+  -sinf(angle), cosf(angle),  0.0, 0.0,
   0.0,          0.0,          1.0, 0.0,
   0.0,          0.0,          0.0, 1.0};
 	return M;
@@ -53,18 +53,36 @@ GLfloat* CreateMatRotz (GLfloat angle)
 GLfloat* CreateMatRoty (GLfloat angle)
 {
 	GLfloat M[] =
-{ cosf(angle),  0.0,         sinf(angle),          0.0,
-  0.0,          1.0, 0.0, 0.0,
-  -sinf(angle), 0.0, cosf(angle),  0.0,
-  0.0,          0.0,         0.0,          1.0};
+{ cosf(angle),  0.0, -sinf(angle), 0.0,
+  0.0,          1.0, 0.0,          0.0,
+  sinf(angle),  0.0, cosf(angle),  0.0,
+  0.0,          0.0, 0.0,          1.0};
 	return M;
 };
+
+GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
+{
+	GLfloat M[] =
+{ 1.0, 0.0, 0.0, Tx,
+  0.0, 1.0, 0.0, Ty,
+  0.0, 0.0, 1.0, Ty,
+  0.0, 0.0, 0.0, 1.0};
+}
+
+/*GLfloat* CreateMatTransAngz (GLfloat angle, )
+{
+	GLfloat M[] =
+{ 1.0, 0.0, 0.0, Tx,
+  0.0, 1.0, 0.0, Ty,
+  0.0, 0.0, 1.0, 0.0,
+  0.0, 0.0, 0.0, 1.0};
+}*/
 
 void idle ()
 {
 	static float i;
 	glLoadIdentity();
-	glLoadMatrixf(CreateMatRotz(i += 10));
+	glLoadMatrixf(CreateMatTransVec(0.433, 0.25, 0));
 	//glMultMatrixf();
 	glutPostRedisplay();
 
