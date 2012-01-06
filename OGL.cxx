@@ -65,9 +65,11 @@ void idle ()
 {
 	glLoadIdentity();
 
-	glLoadMatrixf(CreateMatEch(1.0, 1.0, 1));
+	glLoadMatrixf(CreateMatEch(0.4, 0.4, 1));
+
 	//glMultMatrixf();
 	glutPostRedisplay();
+
 }
 
 int main (int argc, char * argv[])
