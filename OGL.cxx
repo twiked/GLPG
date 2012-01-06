@@ -1,5 +1,7 @@
 #include <GL/glut.h>
 #include <math.h>
+
+#define PI 3.1415926535897932
 void affichage ()
 {
 	GLbitfield masque = GL_COLOR_BUFFER_BIT;
@@ -64,7 +66,8 @@ void idle ()
 {
 	static float i;
 	glLoadIdentity();
-	glLoadMatrixf(CreateMatRotz(i += 10));
+	glLoadMatrixf(CreateMatRotz(PI/9);
+	glLoadMatrixf(CreateMatTrans(0.433,0.25,0));
 	//glMultMatrixf();
 	glutPostRedisplay();
 
