@@ -65,10 +65,11 @@ GLfloat* CreateMatRoty (GLfloat angle)
 GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 {
 	GLfloat M[] =
-{ 1.0, 0.0, 0.0, Tx,
-  0.0, 1.0, 0.0, Ty,
-  0.0, 0.0, 1.0, Ty,
-  0.0, 0.0, 0.0, 1.0};
+{ 1.0, 0.0, 0.0, 0.0,
+  0.0, 1.0, 0.0, 0.0,
+  0.0, 0.0, 1.0, 0.0,
+  Tx,  Ty,  Tz, 1.0};
+	return M;
 }
 
 /*GLfloat* CreateMatTransAngz (GLfloat angle, )
@@ -82,10 +83,10 @@ GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 
 void idle ()
 {
-	static float i;
+	static float i = 0;
 	glLoadIdentity();
-	glLoadMatrixf(CreateMatRotz(PI/9));
-	glLoadMatrixf(CreateMatTransVec(0.433,0.25,0));
+	glLoadMatrixf(CreateMatRotz(i -= 0.01));
+	glMultMatrixf(CreateMatTransVec(0.433,0.25,0.5));
 	//glMultMatrixf();
 	glutPostRedisplay();
 
