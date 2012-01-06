@@ -67,6 +67,7 @@ void idle ()
 	glLoadMatrixf(CreateMatRotz(i += 10));
 	//glMultMatrixf();
 	glutPostRedisplay();
+
 }
 
 int main (int argc, char * argv[])
