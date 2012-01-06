@@ -18,7 +18,7 @@ void affichage ()
 	glColor3f(1.0, 0.0, 1.0);
 	glVertex3f(-0.5, 0.5, 0.0);
 	glEnd();
-
+	glutSwapBuffers();
 	glFlush();
 }
 
@@ -85,9 +85,10 @@ void idle ()
 {
 	static float i;
 	glLoadIdentity();
-	glLoadMatrixf(CreateMatEch(0.4,0.4,0));
-	glMultMatrixf(CreateMatRotz(-PI/9));
-	glMultMatrixf(CreateMatTransVec(0.433,0.25,0.5));
+
+	glMultMatrixf(CreateMatEch(0.4,0.4,0));
+	glLoadMatrixf(CreateMatTransVec(0.433,0.25,0));
+	glMultMatrixf(CreateMatRotz(i-=0.001));
 	//glMultMatrixf();
 	glutPostRedisplay();
 
@@ -96,7 +97,7 @@ void idle ()
 int main (int argc, char * argv[])
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_RGB);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 	glutInitWindowPosition(200,200);
 	glutInitWindowSize(250,250);
 	glutCreateWindow("ogl1");
