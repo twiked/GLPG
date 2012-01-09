@@ -17,15 +17,71 @@ void affichage ()
 
 	glColor3f(1.0, 1.0, 1.0);
 
-	glBegin(GL_POLYGON);
-	glVertex3f(0.5, 0.5, 0.0);
+	glBegin(GL_QUADS);
+	glVertex3f(0.0, 0.0, 0.0);
+	//glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(1.0, 0.0, 0.0);
+	//glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(1.0, 1.0, 0.0);
+	//glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(0.0, 1.0, 0.0);
+	//glEnd();
+
+	//glBegin(GL_QUADS);
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(0.0, 0.0, 1.0);
+	//glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(1.0, 0.0, 1.0);
+	//glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	//glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(0.0, 1.0, 1.0);
+	//glEnd();
+
+	//glBegin(GL_POLYGON);
+	glColor3f(1.0, 0.0, 0.0);
+	glVertex3f(0.0, 0.0, 0.0);
+	//glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(0.0, 1.0, 0.0);
+	//glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(0.0, 1.0, 1.0);
+	//glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(0.0, 0.0, 1.0);
+	//glEnd();
+
+	//glBegin(GL_POLYGON);
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(0.0, 0.0, 0.0);
+	//glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(1.0, 0.0, 0.0);
+	//glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(1.0, 0.0, 1.0);
+	//glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(0.0, 0.0, 1.0);
+	//glEnd();
+
+	//glBegin(GL_POLYGON);
+	glColor3f(0.0, 0.0, 0.0);
+	glVertex3f(1.0, 1.0, 0.0);
+	//glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(1.0, 0.0, 0.0);
+	//glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(1.0, 0.0, 1.0);
+	//glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	//glEnd();
+
+	//glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(0.5, -0.5, 0.0);
-	glColor3f(0.0, 1.0, 1.0);
-	glVertex3f(-0.5, -0.5, 0.0);
-	glColor3f(1.0, 0.0, 1.0);
-	glVertex3f(-0.5, 0.5, 0.0);
+	glVertex3f(1.0, 0.0, 0.0);
+	//glColor3f(1.0, 1.0, 0.0);
+	glVertex3f(1.0, 1.0, 0.0);
+	//glColor3f(0.0, 1.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	//glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(1.0, 0.0, 1.0);
 	glEnd();
+
 	glutSwapBuffers();
 	glFlush();
 }
@@ -124,12 +180,14 @@ GLfloat* CreateMatRotAxez (GLfloat angle)
 void idle ()
 {
 	glLoadIdentity();
-	glLoadMatrixf(CreateMatEch(0.4,0.4,0));
+	glLoadMatrixf(CreateMatEch(0.4,0.4,0.4));
 	//glLoadIdentity();
-	j+=0.005;
-	i+=0.005;
+	j+=0.001;
+	i+=0.001;
+	/*glScalef( 0.4, 0.4, 0.4);
+	glRotatef(i, 0, 0, 0);*/
 	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
-	//glMultMatrixf(CreateMatRotz(j));
+	glMultMatrixf(CreateMatRotz(j));
 	glMultMatrixf(CreateMatRotAxez(i));
 	//glMultMatrixf();
 	glutPostRedisplay();
