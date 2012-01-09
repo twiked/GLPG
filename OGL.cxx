@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <math.h>
 #include <iostream>
+#include <sstream>
 
 #define PI 3.1415926535897932
 
@@ -120,7 +121,9 @@ void clavier_special(int key, int x, int y)
 			speed_j+=1;
 			break;
 	}
-	std::cout << "COOL" << std::endl;
+	std::stringstream tit;
+	tit << speed_i;
+	glutSetWindowTitle(tit.str().c_str());
 }
 void mouse(int xp, int yp)
 {
@@ -221,12 +224,12 @@ void idle ()
 
 int main (int argc, char * argv[])
 {
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowPosition(200,200);
 	glutInitWindowSize(250,250);
 	glutCreateWindow("ogl1");
-
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
 	glClearColor(0.5,0.5,0.5,1.0);
