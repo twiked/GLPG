@@ -15,10 +15,10 @@ void affichage ()
 	GLbitfield masque = GL_COLOR_BUFFER_BIT;
 	glClear(masque);
 
-	glColor3f(1.0, 1.0, 1.0);
 
 	glBegin(GL_QUADS);
-	glVertex3f(1.0, 0.0, 1.0);
+	glColor3f(1.0, 0.0, 1.0);
+	glVertex3f(0.0, 0.0, 0.0);
 	//glColor3f(1.0, 1.0, 0.0);
 	glVertex3f(1.0, 0.0, 0.0);
 	//glColor3f(0.0, 1.0, 1.0);
@@ -61,7 +61,7 @@ void affichage ()
 	//glEnd();
 
 	//glBegin(GL_POLYGON);
-	glColor3f(0.0, 0.0, 0.0);
+	glColor3f(0.0, 1.0, 1.0);
 	glVertex3f(1.0, 1.0, 0.0);
 	//glColor3f(1.0, 1.0, 0.0);
 	glVertex3f(1.0, 0.0, 0.0);
@@ -73,13 +73,13 @@ void affichage ()
 
 	//glBegin(GL_POLYGON);
 	glColor3f(1.0, 1.0, 0.0);
-	glVertex3f(1.0, 0.0, 0.0);
+	glVertex3f(0.0, 1.0, 0.0);
 	//glColor3f(1.0, 1.0, 0.0);
 	glVertex3f(1.0, 1.0, 0.0);
 	//glColor3f(0.0, 1.0, 1.0);
 	glVertex3f(1.0, 1.0, 1.0);
 	//glColor3f(1.0, 0.0, 1.0);
-	glVertex3f(1.0, 0.0, 1.0);
+	glVertex3f(0.0, 1.0, 1.0);
 	glEnd();
 
 	glutSwapBuffers();
@@ -187,7 +187,7 @@ void idle ()
 	/*glScalef( 0.4, 0.4, 0.4);
 	glRotatef(i, 0, 0, 0);*/
 	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
-	glMultMatrixf(CreateMatRotz(j));
+	//glMultMatrixf(CreateMatRotz(j));
 	glMultMatrixf(CreateMatRotAxez(i));
 	//glMultMatrixf();
 	glutPostRedisplay();
@@ -203,7 +203,7 @@ int main (int argc, char * argv[])
 	glutInitWindowSize(250,250);
 	glutCreateWindow("ogl1");
 
-	glClearColor(0.5,0.5,0.5,0.0);
+	glClearColor(0.5,0.5,0.5,1.0);
 	glPointSize(2.0);
 
 	glutDisplayFunc(affichage);
