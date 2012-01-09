@@ -6,7 +6,7 @@
 
 namespace
 {
-	int x, y;
+	int x=0, y=0, w=250, h = 250;
 
 	GLfloat i = PI/6;
 	GLfloat j = PI/6;
@@ -30,6 +30,16 @@ void affichage ()
 	glFlush();
 }
 
+void reshape(int width, int height)
+{
+	w = width;
+	h = height;
+	if (x<y)
+		glViewport(0,(h-w)/2,w,w);
+	else
+		glViewport((w-h)/2,0,h,h);
+}
+
 void clavier(unsigned char key, int x, int y)
 {
 	//fail
@@ -39,7 +49,7 @@ void mouse(int xp, int yp)
 {
 	x = xp;
 	y = yp;
-	//std::cout << glutGet(GLUT_WINDOW_WIDTH) << std::endl;
+	std::cout << x << "---" << y << std::endl;
 }
 
 GLfloat * CreateMatEch (GLfloat x, GLfloat y, GLfloat z)
@@ -113,7 +123,6 @@ GLfloat* CreateMatRotAxez (GLfloat angle)
 
 void idle ()
 {
-	glViewport(x-125,-y+125,250,250);
 	glLoadIdentity();
 	glLoadMatrixf(CreateMatEch(0.4,0.4,0));
 	//glLoadIdentity();
@@ -143,7 +152,7 @@ int main (int argc, char * argv[])
 	glutIdleFunc(idle);
 	glutMotionFunc(mouse);
 	glutKeyboardFunc(clavier);
-
+	glutReshapeFunc(reshape);
 	glutMainLoop();
 
 
