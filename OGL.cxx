@@ -7,9 +7,9 @@
 namespace
 {
 	int x=0, y=0, w=250, h = 250;
+	bool move = false;
 
-	GLfloat i = PI/6;
-	GLfloat j = PI/6;
+	GLfloat i = PI/6, j = PI/6, speed_i = 20, speed_j = 20;
 void affichage ()
 {
 	GLbitfield masque = GL_COLOR_BUFFER_BIT;
@@ -96,9 +96,32 @@ void reshape(int width, int height)
 
 void clavier(unsigned char key, int x, int y)
 {
-	//fail
+		switch (key)
+		{
+		case 32:
+			move = move ? false : true;
+		}
 }
 
+void clavier_special(int key, int x, int y)
+{
+	switch (key)
+	{
+	case GLUT_KEY_UP:
+		speed_i+=1;
+		break;
+	case GLUT_KEY_DOWN:
+			speed_i-=1;
+			break;
+	case GLUT_KEY_RIGHT:
+			speed_j+=1;
+			break;
+	case GLUT_KEY_LEFT:
+			speed_j+=1;
+			break;
+	}
+	std::cout << "COOL" << std::endl;
+}
 void mouse(int xp, int yp)
 {
 	x = xp;
@@ -179,17 +202,20 @@ void idle ()
 {
 	glLoadIdentity();
 	glLoadMatrixf(CreateMatEch(0.4,0.4,0));
+	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
+	if (move)
+	{
 //	gluLookAt(	0.f, 0.f, 0.f,
 //				0.f, 0.f,    0.f,
 //				0.f, 0.f,  1.f);
-	j+=0.005;
-	i+=0.005;
-	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
+	i+=0.005*speed_i/20;
+	j+=0.005*speed_j/20;
 	//glMultMatrixf(CreateMatRotz(j));
-	glMultMatrixf(CreateMatRotAxez(i));
-	//glMultMatrixf();
-	glutPostRedisplay();
 
+	//glMultMatrixf();
+	}
+	glMultMatrixf(CreateMatRotAxez(i));
+	glutPostRedisplay();
 }
 } //namespace
 
@@ -201,6 +227,8 @@ int main (int argc, char * argv[])
 	glutInitWindowSize(250,250);
 	glutCreateWindow("ogl1");
 
+	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+
 	glClearColor(0.5,0.5,0.5,1.0);
 	glPointSize(2.0);
 
@@ -208,6 +236,7 @@ int main (int argc, char * argv[])
 	glutIdleFunc(idle);
 	glutMotionFunc(mouse);
 	glutKeyboardFunc(clavier);
+	glutSpecialFunc(clavier_special);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
 
