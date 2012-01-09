@@ -86,8 +86,8 @@ void idle ()
 	static float i = 0;
 	glLoadIdentity();
 
-	glMultMatrixf(CreateMatEch(0.4,0.4,0));
-	glLoadMatrixf(CreateMatTransVec(0.433,0.25,0));
+	glLoadMatrixf(CreateMatEch(0.4,0.4,0));
+	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
 	glMultMatrixf(CreateMatRotz(i-=0.001));
 	//glMultMatrixf();
 	glutPostRedisplay();
