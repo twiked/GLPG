@@ -72,6 +72,16 @@ GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 	return M;
 }
 
+GLfloat* CreateMatRotAxez (GLfloat angle)
+{
+	GLfloat M[] =
+{ (3 + cos (angle))/4,  				(sqrtf(3) * (-cos (angle) + 1))/4, 	(-2 * sin (angle))/4, 			0.0,
+  (sqrtf(3) * (-cos (angle) + 1))/4, 	(3 * cos(angle) +1)/4, 				(2* sqrtf(3) * sin(angle))/4, 	0.0,
+  (2 * sin (angle))/4, 					(-2 * sqrtf(3) * sin(angle))/4, 	(4 * cos(angle))/4, 			0.0,
+  0.0,  								0.0,  								0.0,  							1.0};
+	return M;
+}
+
 /*GLfloat* CreateMatTransAngz (GLfloat angle, )
 {
 	GLfloat M[] =
@@ -84,11 +94,13 @@ GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 void idle ()
 {
 	static float i = 0;
+	static float j = 1;
 	glLoadIdentity();
 
-	glLoadMatrixf(CreateMatEch(0.4,0.4,0));
+	glLoadMatrixf(CreateMatEch(0.7,0.7,0));
 	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
-	glMultMatrixf(CreateMatRotz(i-=0.001));
+	glMultMatrixf(CreateMatRotz(i-=0.01));
+	glMultMatrixf(CreateMatRotAxez(j+=0.001));
 	//glMultMatrixf();
 	glutPostRedisplay();
 
@@ -102,7 +114,7 @@ int main (int argc, char * argv[])
 	glutInitWindowSize(250,250);
 	glutCreateWindow("ogl1");
 
-	glClearColor(0.8,0.8,0.8,0.8);
+	glClearColor(0.5,0.5,0.5,0.0);
 	glPointSize(2.0);
 
 	glutDisplayFunc(affichage);
