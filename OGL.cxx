@@ -1,7 +1,12 @@
 #include <GL/glut.h>
 #include <math.h>
+#include <iostream>
 
 #define PI 3.1415926535897932
+
+namespace
+{
+	int x, y;
 void affichage ()
 {
 	GLbitfield masque = GL_COLOR_BUFFER_BIT;
@@ -20,6 +25,18 @@ void affichage ()
 	glEnd();
 	glutSwapBuffers();
 	glFlush();
+}
+
+void clavier(unsigned char key, int x, int y)
+{
+	//fail
+}
+
+void mouse(int xp, int yp)
+{
+	x = xp;
+	y = yp;
+	//std::cout << glutGet(GLUT_WINDOW_WIDTH) << std::endl;
 }
 
 GLfloat * CreateMatEch (GLfloat x, GLfloat y, GLfloat z)
@@ -83,6 +100,7 @@ GLfloat* CreateMatTransVec (GLfloat Tx, GLfloat Ty, GLfloat Tz)
 
 void idle ()
 {
+	glViewport(x-125,-y+125,250,250);
 	static float i = 0;
 	glLoadIdentity();
 
@@ -93,7 +111,7 @@ void idle ()
 	glutPostRedisplay();
 
 }
-
+} //namespace
 int main (int argc, char * argv[])
 {
 	glutInit(&argc, argv);
@@ -107,7 +125,8 @@ int main (int argc, char * argv[])
 
 	glutDisplayFunc(affichage);
 	glutIdleFunc(idle);
-	//glutKeyboardFunc(clavier);
+	glutMotionFunc(mouse);
+	glutKeyboardFunc(clavier);
 
 	glutMainLoop();
 
