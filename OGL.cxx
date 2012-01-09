@@ -2,6 +2,12 @@
 #include <math.h>
 
 #define PI 3.1415926535897932
+
+namespace
+{
+
+	GLfloat i = PI/6;
+	GLfloat j = PI/6;
 void affichage ()
 {
 	GLbitfield masque = GL_COLOR_BUFFER_BIT;
@@ -93,17 +99,17 @@ GLfloat* CreateMatRotAxez (GLfloat angle)
 
 void idle ()
 {
-	static float i = 0;
-	static float j = 1;
-	glLoadIdentity();
-
+	//glLoadIdentity();
+	j+=0.005;
+	i+=0.005;
 	glLoadMatrixf(CreateMatEch(0.7,0.7,0));
 	glMultMatrixf(CreateMatTransVec(0.433,0.25,0));
-	glMultMatrixf(CreateMatRotz(i-=0.01));
-	glMultMatrixf(CreateMatRotAxez(j+=0.001));
+	//glMultMatrixf(CreateMatRotz(j));
+	glMultMatrixf(CreateMatRotAxez(i));
 	//glMultMatrixf();
 	glutPostRedisplay();
 
+}
 }
 
 int main (int argc, char * argv[])
