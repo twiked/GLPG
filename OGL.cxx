@@ -19,13 +19,12 @@ void affichage ()
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	gluLookAt(0,0,-5,0,0,0,-1,0,0);
-	glScalef(0.4,0.4,0.4);
-	glTranslatef(0.7,0.7,0.5);
+	
+	glRotated(j, 0.7, 0.7, 0.5);
 	CreateMatRotAxez(M, i);
 	glMultMatrixf(M);
-	
-	//glRotated(i, 0, 0, 1);
-	glRotated(j, 0.7, 0.7, 0.5);
+	glTranslatef(0.7,0.7,0.5);
+	glScalef(0.4,0.4,0.4);
 	
 	glBegin(GL_QUADS);
 
