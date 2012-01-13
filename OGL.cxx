@@ -10,19 +10,22 @@ namespace
 {
 	int x=0, y=0, w=800, h = 600;
 	bool move = false;
+	GLfloat M[16];
 
-	GLfloat i = PI/6, j = PI/6, speed_i = 20, speed_j = 20;
+	GLfloat i = 0, j = 0, speed_i = 0, speed_j = 0;
 void affichage ()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) ;
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
-	
-	gluLookAt(3,3,3,0,0,0,0,0,1);
-	glTranslatef(0.433,0.25,0);
+	gluLookAt(0,0,-5,0,0,0,-1,0,0);
 	glScalef(0.4,0.4,0.4);
-	glRotated(i, 0, 0, 1);
-	glRotated(j, 1, 0, 0);
+	glTranslatef(0.7,0.7,0.5);
+	CreateMatRotAxez(M, i);
+	glMultMatrixf(M);
+	
+	//glRotated(i, 0, 0, 1);
+	glRotated(j, 0.7, 0.7, 0.5);
 	
 	glBegin(GL_QUADS);
 
@@ -73,9 +76,9 @@ void reshape(int width, int height)
   	glViewport(0,0,width,height);
   	glMatrixMode(GL_PROJECTION);
   	glLoadIdentity();
-  	gluPerspective(45,float(width)/float(height),0.1,100); 
+  	gluPerspective(70,float(width)/float(height),0.1,100); 
   	glMatrixMode(GL_MODELVIEW);
-} 	 
+}
 
 void clavier(unsigned char key, int x, int y)
 {
@@ -116,8 +119,8 @@ void mouse(int xp, int yp)
 
 void idle ()
 {
-	i+=0.005*speed_i/20;
-	j+=0.005*speed_j/20;
+	i+=speed_i/300;
+	j+=speed_j/300;
 	glutPostRedisplay();
 }
 } //namespace
@@ -137,7 +140,7 @@ int main (int argc, char * argv[])
 
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
-	gluPerspective(10,(double)w/h,0,100);
+	gluPerspective(70,(double)w/h,0,100);
 	glMatrixMode( GL_MODELVIEW );
 
 	glutDisplayFunc(affichage);
@@ -147,6 +150,5 @@ int main (int argc, char * argv[])
 	glutSpecialFunc(clavier_special);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
-
 
 }
