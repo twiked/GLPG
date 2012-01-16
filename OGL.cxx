@@ -45,7 +45,7 @@ void affichage ()
 		
 		//Définition du titre
 		std::stringstream tit;
-		tit << "OGL - " << fps << " FPS - Moyenne : " << frame_t*1000.0/time;
+		tit << "OGL - " << fps << " FPS - Moyenne : " << frame_t*1000.0/time << native ? " - NATIF" : ;
 		glutSetWindowTitle(tit.str().c_str());
 		
 		//Réinitialisation des compteurs
