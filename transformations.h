@@ -1,13 +1,11 @@
 #include <cstring>
 
-#define NATIVE true
-
 GLfloat * CreateMatEch (GLfloat* M, GLfloat x, GLfloat y, GLfloat z)
 {
-	if (NATIVE)
+	if (var::native)
 		glScalef(x,y,z);
 	else
-		{
+	{
 		GLfloat L[] =
 	{ x,   0.0, 0.0, 0.0,
 	  0.0, y,   0.0, 0.0,
@@ -19,7 +17,7 @@ GLfloat * CreateMatEch (GLfloat* M, GLfloat x, GLfloat y, GLfloat z)
 
 GLfloat* CreateMatRotx (GLfloat* M, GLfloat angle)
 {
-	if (NATIVE)
+	if (var::native)
 		glRotatef(angle, 1,0,0);
 	else
 		{
@@ -34,7 +32,7 @@ GLfloat* CreateMatRotx (GLfloat* M, GLfloat angle)
 
 GLfloat* CreateMatRotz (GLfloat* M, GLfloat angle)
 {
-	if (NATIVE)
+	if (var::native)
 		glRotatef(angle, 0,1,0);
 	else
 		{
@@ -49,7 +47,7 @@ GLfloat* CreateMatRotz (GLfloat* M, GLfloat angle)
 
 void CreateMatRoty (GLfloat* M, GLfloat angle)
 {
-	if (NATIVE)
+	if (var::native)
 		glRotatef(angle, 0,0,1);
 	else
 		{
@@ -64,7 +62,7 @@ void CreateMatRoty (GLfloat* M, GLfloat angle)
 
 GLfloat* CreateMatTransVec (GLfloat* M, GLfloat Tx, GLfloat Ty, GLfloat Tz)
 {
-	if (NATIVE)
+	if (var::native)
 		glTranslatef(Tx,Ty,Tz);
 	else
 		{

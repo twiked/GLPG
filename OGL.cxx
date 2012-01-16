@@ -3,6 +3,12 @@
 #include <iostream>
 #include <sstream>
 
+//Espace de nom inter-fichiers
+namespace var
+{
+	//Doit-on utiliser les transformations natives de OpenGL ?
+	bool native = true;
+}
 #include "transformations.h"
 
 #define PI 3.1415926535897932
@@ -12,18 +18,41 @@ namespace
 	//Variables de fenêtre.
 	int x=0, y=0, w=800, h = 600, old_x=0, old_y=0;
 	float eyedistance=-10, horizangle = 0, vertangle = 0;
-	
+
 	//Etat de l'animation
 	bool move = false;
+	
+	//Variables pour le calcul de FPS
+	unsigned long int frame=0, frame_t=0,time,timebase=0;
+	float fps, moyenne;
 	
 	//Matrice de travail
 	GLfloat M[16];
 
 	//Variables d'animation
-	GLfloat i = 0, j = 0, speed_i = 0, speed_j = 0;
+	GLfloat i = 0, j = 0, speed_i = 10, speed_j = 10;
 	
 void affichage ()
 {
+	
+	frame++;
+	frame_t++;
+	time=glutGet(GLUT_ELAPSED_TIME);
+
+	if (time - timebase > 1000) {
+		//Calcul du nombre d'image lors de la dernière seconde
+		fps = frame*1000.0/(time-timebase);
+		
+		//Définition du titre
+		std::stringstream tit;
+		tit << "OGL - " << fps << " FPS - Moyenne : " << frame_t*1000.0/time;
+		glutSetWindowTitle(tit.str().c_str());
+		
+		//Réinitialisation des compteurs
+	 	timebase = time;
+		frame = 0;
+	}
+
 	//Réinitialisation des tampons de pixel et de profondeur
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -38,9 +67,9 @@ void affichage ()
 	//Les transformations
 	glRotated(horizangle, 0,1,0);
 	glRotated(vertangle, 1, 0, 0);
-	//CreateMatRotAxez(M, i);
+	CreateMatRotAxez(M, i);
 	//glTranslatef(0.7,0.7,0.4);
-	//CreateMatEch(M,0.4,0.4,0.4);
+	CreateMatEch(M,0.4,0.4,0.4);
 	
 	//Dessin du cube
 	glBegin(GL_QUADS);
@@ -83,7 +112,7 @@ void affichage ()
 
     glEnd();
     
-    //"Affichage" à l'écran
+    //"Affichage réel" à l'écran
     glutSwapBuffers();
     glFlush();
 	
@@ -112,6 +141,7 @@ void clavier(unsigned char key, int x, int y)
 		case 32:
 			//Si touche espace appuyée, activer/désactiver le mouvement
 			move = move ? false : true;
+			break;
 		}
 }
 
@@ -133,12 +163,11 @@ void clavier_special(int key, int x, int y)
 	case GLUT_KEY_LEFT:
 			horizangle-=0.3;
 			break;
+	case GLUT_KEY_F1:
+			//Active/désactive le mode natif
+			var::native = (var::native) ? false : true;
+			break;
 	}
-	
-	//Affiche la vitesse courante en titre de fenêtre
-	std::stringstream tit;
-	tit << speed_i;
-	glutSetWindowTitle(tit.str().c_str());
 }
 
 //Fonction callback de mouvement souris
@@ -171,8 +200,8 @@ void idle ()
 {
 	if (move)
 	{
-		i+=speed_i/30;
-		j+=speed_j/30;
+		horizangle+=speed_i/30;
+		vertangle+=speed_j/30;
 	}
 	glutPostRedisplay();
 }
