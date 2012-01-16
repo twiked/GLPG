@@ -11,6 +11,7 @@ namespace var
 }
 #include "transformations.h"
 
+// definition de Pi, pour son utilisation dans le corps du programme
 #define PI 3.1415926535897932
 
 namespace
@@ -29,7 +30,7 @@ namespace
 	//Matrice de travail
 	GLfloat M[16];
 
-	//Variables d'animation
+	//Variables d'animation -- vitesse de rotation
 	GLfloat i = 0, j = 0, speed_i = 10, speed_j = 10;
 	
 void affichage ()
@@ -48,7 +49,7 @@ void affichage ()
 		tit << "OGL - " << fps << " FPS - Moyenne : " << frame_t*1000.0/time << native ? " - NATIF" : ;
 		glutSetWindowTitle(tit.str().c_str());
 		
-		//Réinitialisation des compteurs
+		//Réinitialisation des compteurs de temps
 	 	timebase = time;
 		frame = 0;
 	}
@@ -59,6 +60,7 @@ void affichage ()
 	//Définition de la matrice courante à GL_MODELVIEW
 	glMatrixMode( GL_MODELVIEW );
 	
+	//Chargement de la matrice identité
 	glLoadIdentity();
 	
 	//Positionement de la camera, qui en fait effectue la transformation inverse sur la scène.
@@ -148,7 +150,7 @@ void clavier(unsigned char key, int x, int y)
 //Fonction similaire à celle ci-dessus, mais ne concerne que les caractères spéciaux
 void clavier_special(int key, int x, int y)
 {
-	//Changement des deux vitesses de rotation avec les touches directionnelles
+	//Rotation du cube avec les touches directionnelles
 	switch (key)
 	{
 	case GLUT_KEY_UP:
@@ -175,13 +177,16 @@ void mouse(int button, int state, int xp, int yp)
 {
 	if (state == GLUT_UP)
 	{
+		//Roulette haut de souris -> zoom avant
 		if (button == 3)
 			eyedistance+=1;
+		//Roulette bas de souris -> zoom arrière
 		else if (button == 4)
 			eyedistance-=1;
 	}
 	else
 	{
+		//Repositionne la position du clic de la souris pour éviter les 'sauts' du cube
 		old_x = xp;
 		old_y = yp;
 	}
@@ -189,6 +194,7 @@ void mouse(int button, int state, int xp, int yp)
 
 void mousemotion(int x, int y)
 {
+	//Changement de l'angle de rotation lorsque la souris se déplace
 	horizangle+=(x-old_x);
 	vertangle+=(y-old_y);
 	old_x = x;
@@ -198,11 +204,13 @@ void mousemotion(int x, int y)
 //Fonction callback appellée lorsque le programme ne déssine pas
 void idle ()
 {
+	//Rotation automatique
 	if (move)
 	{
 		horizangle+=speed_i/30;
 		vertangle+=speed_j/30;
 	}
+	//Demande de réaffichage
 	glutPostRedisplay();
 }
 
@@ -222,7 +230,7 @@ int main (int argc, char * argv[])
 	glutInitWindowSize(w,h);
 	glutCreateWindow("Initialisation");
 	
-	//Activation de l'antialiasing, mais qui n'a pas l'air fonctionnel
+	//Activation de l'antialiasing
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 	
 	//Activation des test de Z-Buffer pour gestion de l'affichage avec profondeur, à ne pas confondre avec la perspective
@@ -238,16 +246,18 @@ int main (int argc, char * argv[])
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	gluPerspective(70,(double)w/h,0,100);
+	
 	glMatrixMode( GL_MODELVIEW );
 
 	//Définition des fonctions de callback à utiliser
 	glutDisplayFunc(affichage);
 	glutIdleFunc(idle);
-	//glutMotionFunc(mouse);
+	//Fonctions de gestion du clavier-souris
 	glutKeyboardFunc(clavier);
 	glutSpecialFunc(clavier_special);
 	glutMouseFunc(mouse);
 	glutMotionFunc(mousemotion);
+	//Fonction à appeler quand redimensionnement de la fenetre
 	glutReshapeFunc(reshape);
 	
 	//Lancement du programme
