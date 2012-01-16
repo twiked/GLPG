@@ -10,7 +10,8 @@
 namespace
 {
 	//Variables de fenêtre.
-	int x=0, y=0, w=800, h = 600;
+	int x=0, y=0, w=800, h = 600, old_x=0, old_y=0;
+	float eyedistance=-10, horizangle = 0, vertangle = 0;
 	
 	//Etat de l'animation
 	bool move = false;
@@ -32,14 +33,14 @@ void affichage ()
 	glLoadIdentity();
 	
 	//Positionement de la camera, qui en fait effectue la transformation inverse sur la scène.
-	gluLookAt(0,0,-5,0,0,0,-1,0,0);
+	gluLookAt(0,0,eyedistance,0,0,0,0,1,0);
 	
 	//Les transformations
-	glRotated(j, 0.7, 0.7, 0.5);
-	CreateMatRotAxez(M, i);
-	glMultMatrixf(M);
-	glTranslatef(0.7,0.7,0.5);
-	glScalef(0.4,0.4,0.4);
+	glRotated(horizangle, 0,1,0);
+	glRotated(vertangle, 1, 0, 0);
+	//CreateMatRotAxez(M, i);
+	//glTranslatef(0.7,0.7,0.4);
+	//CreateMatEch(M,0.4,0.4,0.4);
 	
 	//Dessin du cube
 	glBegin(GL_QUADS);
@@ -121,16 +122,16 @@ void clavier_special(int key, int x, int y)
 	switch (key)
 	{
 	case GLUT_KEY_UP:
-		speed_i+=1;
-		break;
+			vertangle+=0.3;
+			break;
 	case GLUT_KEY_DOWN:
-			speed_i-=1;
+			vertangle-=0.3;
 			break;
 	case GLUT_KEY_RIGHT:
-			speed_j+=1;
+			horizangle+=0.3;
 			break;
 	case GLUT_KEY_LEFT:
-			speed_j+=1;
+			horizangle-=0.3;
 			break;
 	}
 	
@@ -141,18 +142,38 @@ void clavier_special(int key, int x, int y)
 }
 
 //Fonction callback de mouvement souris
-void mouse(int xp, int yp)
+void mouse(int button, int state, int xp, int yp)
 {
-	x = xp;
-	y = yp;
-	std::cout << x << "---" << y << std::endl;
+	if (state == GLUT_UP)
+	{
+		if (button == 3)
+			eyedistance+=1;
+		else if (button == 4)
+			eyedistance-=1;
+	}
+	else
+	{
+		old_x = xp;
+		old_y = yp;
+	}
+}
+
+void mousemotion(int x, int y)
+{
+	horizangle+=(x-old_x);
+	vertangle+=(y-old_y);
+	old_x = x;
+	old_y = y;
 }
 
 //Fonction callback appellée lorsque le programme ne déssine pas
 void idle ()
 {
-	i+=speed_i/300;
-	j+=speed_j/300;
+	if (move)
+	{
+		i+=speed_i/30;
+		j+=speed_j/30;
+	}
 	glutPostRedisplay();
 }
 
@@ -163,7 +184,7 @@ int main (int argc, char * argv[])
 	glutInit(&argc, argv);
 	
 	//Initialisation de GLUT en Double-buffering, avec gestion de la profondeur
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	
 	//Fenêtre positionnée à 50,50
 	glutInitWindowPosition(50,50);
@@ -177,6 +198,7 @@ int main (int argc, char * argv[])
 	
 	//Activation des test de Z-Buffer pour gestion de l'affichage avec profondeur, à ne pas confondre avec la perspective
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
 	
 	//Définition de la couleur de fond, gris
 	glClearColor(0.5,0.5,0.5,1.0);
@@ -192,9 +214,11 @@ int main (int argc, char * argv[])
 	//Définition des fonctions de callback à utiliser
 	glutDisplayFunc(affichage);
 	glutIdleFunc(idle);
-	glutMotionFunc(mouse);
+	//glutMotionFunc(mouse);
 	glutKeyboardFunc(clavier);
 	glutSpecialFunc(clavier_special);
+	glutMouseFunc(mouse);
+	glutMotionFunc(mousemotion);
 	glutReshapeFunc(reshape);
 	
 	//Lancement du programme
