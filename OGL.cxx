@@ -11,7 +11,7 @@ namespace var
 }
 #include "transformations.h"
 
-// definition de Pi, pour son utilisation dans le corps du programme
+//Définition de Pi, pour son utilisation dans le corps du programme
 #define PI 3.1415926535897932
 
 namespace
@@ -20,7 +20,7 @@ namespace
 	int x=0, y=0, w=800, h = 600, old_x=0, old_y=0;
 	float eyedistance=-10, horizangle = 0, vertangle = 0;
 
-	//Etat de l'animation
+	//État de l'animation
 	bool move = false;
 	
 	//Variables pour le calcul de FPS
@@ -30,7 +30,7 @@ namespace
 	//Matrice de travail
 	GLfloat M[16];
 
-	//Variables d'animation -- vitesse de rotation
+	//Variables d'animation -- vitesse de rotation en mode automatique
 	GLfloat i = 0, j = 0, speed_i = 10, speed_j = 10;
 	
 void affichage ()
@@ -201,7 +201,7 @@ void mousemotion(int x, int y)
 	old_y = y;
 }
 
-//Fonction callback appellée lorsque le programme ne déssine pas
+//Fonction callback appellée lorsque le programme ne dessine pas
 void idle ()
 {
 	//Rotation automatique
