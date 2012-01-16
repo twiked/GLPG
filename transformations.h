@@ -2,10 +2,10 @@
 
 GLfloat * CreateMatEch (GLfloat* M, GLfloat x, GLfloat y, GLfloat z)
 {
-	if (var::native)
+	if (var::native) //Fonction native de OpenGl
 		glScalef(x,y,z);
-	else
-	{
+	else		 //Matrice explicite
+		{
 		GLfloat L[] =
 	{ x,   0.0, 0.0, 0.0,
 	  0.0, y,   0.0, 0.0,
@@ -17,9 +17,9 @@ GLfloat * CreateMatEch (GLfloat* M, GLfloat x, GLfloat y, GLfloat z)
 
 GLfloat* CreateMatRotx (GLfloat* M, GLfloat angle)
 {
-	if (var::native)
+	if (var::native) //Fonction native de OpenGl
 		glRotatef(angle, 1,0,0);
-	else
+	else		 //Matrice explicite
 		{
 		GLfloat L[] =
 	{ 1.0,  0.0,         0.0,          0.0,
@@ -32,9 +32,9 @@ GLfloat* CreateMatRotx (GLfloat* M, GLfloat angle)
 
 GLfloat* CreateMatRotz (GLfloat* M, GLfloat angle)
 {
-	if (var::native)
+	if (var::native) //Fonction native de OpenGl
 		glRotatef(angle, 0,1,0);
-	else
+	else		 //Matrice explicite
 		{
 		GLfloat L[] =
 	{ cosf(angle),  sinf(angle),  0.0, 0.0,
@@ -47,9 +47,9 @@ GLfloat* CreateMatRotz (GLfloat* M, GLfloat angle)
 
 void CreateMatRoty (GLfloat* M, GLfloat angle)
 {
-	if (var::native)
+	if (var::native) //Fonction native de OpenGl
 		glRotatef(angle, 0,0,1);
-	else
+	else		 //Matrice explicite
 		{
 		GLfloat L[] =
 	{ cosf(angle),  0.0, -sinf(angle), 0.0,
@@ -62,9 +62,9 @@ void CreateMatRoty (GLfloat* M, GLfloat angle)
 
 GLfloat* CreateMatTransVec (GLfloat* M, GLfloat Tx, GLfloat Ty, GLfloat Tz)
 {
-	if (var::native)
+	if (var::native) //Fonction native de OpenGl
 		glTranslatef(Tx,Ty,Tz);
-	else
+	else		 //Matrice explicite
 		{
 		GLfloat L[] =
 	{ 1.0, 0.0, 0.0, 0.0,
@@ -84,12 +84,3 @@ void CreateMatRotAxez (GLfloat* M, GLfloat angle)
   0.0,  								0.0,  								0.0,  							4.0};
 	glMultMatrixf(L);
 }
-
-/*GLfloat* CreateMatTransAngz (GLfloat angle, )
-{
-	GLfloat M[] =
-{ 1.0, 0.0, 0.0, Tx,
-  0.0, 1.0, 0.0, Ty,
-  0.0, 0.0, 1.0, 0.0,
-  0.0, 0.0, 0.0, 1.0};
-}*/
