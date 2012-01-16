@@ -227,8 +227,8 @@ int main (int argc, char * argv[])
 	
 	//Activation des test de Z-Buffer pour gestion de l'affichage avec profondeur, à ne pas confondre avec la perspective
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
-	
+	glEnable(GL_BLEND);
+        glEnable(GL_POLYGON_SMOOTH);
 	//Définition de la couleur de fond, gris
 	glClearColor(0.5,0.5,0.5,1.0);
 	
